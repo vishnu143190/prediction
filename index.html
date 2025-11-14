@@ -1,13 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prediction - Spin & Win</title>
+<meta charset="UTF-8">
+<title>Prediction – Spin & Win</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{margin:0;font-family:Arial;background:#111;color:white;text-align:center;}
+.logo{width:150px;margin-top:20px;}
+#wheel{width:300px;height:300px;border:10px solid #fff;border-radius:50%;margin:40px auto;
+background:conic-gradient(#ff5733 0deg 60deg,#33c1ff 60deg 120deg,#33ff57 120deg 180deg,
+#ff33c4 180deg 240deg,#ffc133 240deg 300deg,#8a33ff 300deg 360deg);
+transition: transform 4s cubic-bezier(0.25,0.1,0.1,1);}
+#spinBtn{padding:12px 30px;font-size:20px;border:none;background:#e91e63;color:white;
+border-radius:10px;cursor:pointer;}
+#spinBtn:active{transform:scale(0.95);}
+#result{font-size:26px;margin-top:25px;font-weight:bold;}
+</style>
+</head>
+<body>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #eef2f3;
-            text-align: center;
-            p
+<img src="logo.png" class="logo">
+<h1>Spin & Win Lottery</h1>
+<div id="wheel"></div>
+<button id="spinBtn">SPIN NOW</button>
+<div id="result"></div>
+
+<audio id="sound" src="spin.wav"></audio>
+
+<script>
+const wheel=document.getElementById("wheel");
+const resultBox=document.getElementById("result");
+const btn=document.getElementById("spinBtn");
+const sound=document.getElementById("sound");
+
+const rewards=["₹10","₹20","₹50","₹100","Better Luck Next Time","₹500"];
+
+btn.onclick=()=>{
+    btn.disabled=true;
+    sound.play();
+    const randomDeg=Math.floor(2000+Math.random()*3000);
+    wheel.style.transform=`rotate(${randomDeg}deg)`;
+    setTimeout(()=>{
+        const index=Math.floor((randomDeg % 360)/60);
+        const prize=rewards[5-index];
+        resultBox.innerHTML="You Won: "+prize;
+        btn.disabled=false;
+    },4000);
+};
+</script>
+
+</body>
+</html>
